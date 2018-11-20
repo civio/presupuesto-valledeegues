@@ -1,9 +1,10 @@
 # -*- coding: UTF-8 -*-
 from budget_app.loaders import PaymentsLoader
-from budget_app.models import Budget
+import re
+
 
 payments_mapping = {
-    'default': {'fc_code': None, 'date': 2, 'payee': 4, 'description': 7, 'amount': 5},
+    'default': {'fc_code': None, 'date': 1, 'payee': 3, 'description': 6, 'amount': 4},
 }
 
 
@@ -35,6 +36,37 @@ class ValledeeguesPaymentsLoader(PaymentsLoader):
 
         # Payee data
         payee = line[mapper.payee].strip()
+
+        # remove commas
+        payee = payee.replace(', ', ' ').replace(',', ' ')
+
+        # normalize company types
+        payee = re.sub(r' S\.L$', ' S.L.', payee)
+        payee = re.sub(r' S\.L[^\.]', ' S.L.', payee)
+        payee = re.sub(r' SL$', ' S.L.', payee)
+        payee = re.sub(r' S\.I$', ' S.I.', payee)
+        payee = re.sub(r' SLL$', ' S.L.L.', payee)
+        payee = re.sub(r' SLU$', ' S.L.U.', payee)
+        payee = re.sub(r' S\.L\.U$', ' S.L.U.', payee)
+        payee = re.sub(r' S\.L\.U[^\.]', ' S.L.U.', payee)
+        payee = re.sub(r' SLD$', ' S.L.D.', payee)
+        payee = re.sub(r' S\.A$', ' S.A.', payee)
+        payee = re.sub(r' S\.A[^\.]', ' S.A.', payee)
+        payee = re.sub(r' SA$', ' S.A.', payee)
+        payee = re.sub(r' SAU$', ' S.A.U.', payee)
+        payee = re.sub(r' SRL$', ' S.R.L.', payee)
+        payee = re.sub(r' AG$', ' A.G.', payee)
+
+        # normalize typos
+        payee = re.sub('IRAOLA ARTETA', 'IRAOLA-ARTETA', payee)
+        payee = re.sub('MEDIA MARKT CORDOVILLA', 'MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COPUTER S.A.', payee)
+        payee = re.sub('MEDIA MARKT CORDOVILLA PAMPLONA VIDEO', 'MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COPUTER S.A.D', payee)
+        payee = re.sub('MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COPUTER S.A.', 'MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COMPUTER S.A.', payee)
+        payee = re.sub('SEGURIDAD SISTEMAS NAVARRA S.A.', 'SEGURIDAD SISTEMAS NAVARRA S.L.', payee)
+        payee = re.sub('UNIVERSIDAD SOCIEDAD', 'UNIVERSIDAD-SOCIEDAD', payee)
+        payee = re.sub('FORESNA ZURGAIA', 'FORESNA-ZURGAIA', payee)
+        payee = re.sub('LABORAL RUIZ PIQUER', 'LABORAL RUIZ-PIQUER', payee)
+        payee = re.sub(r'ASESORIA LABORAL RUIZ$', 'ASESORIA LABORAL RUIZ-PIQUER S.L.', payee)
 
         # We don't get any anonymized entries
         anonymized = False
