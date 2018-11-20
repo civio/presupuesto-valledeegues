@@ -1,0 +1,92 @@
+<script>
+  $(function () {
+
+    var breakdown = {{ breakdown.to_json( labels=descriptions['functional'] )|safe }},
+        getBreakdownValue = getBreakdownValueFunction('expense', '{{ latest_budget.name()|safe }}'),
+        gridData = breakdownToTable(breakdown),
+        myGrid;
+
+
+    // House tax
+    var houseValue = function() {
+      var value = parseFloat($("#select-house").val().replace(/\./g, "").replace(/,/, ".")).toFixed(0);
+      if (isNaN(value)) {
+        $("#select-house").val("")
+        value = "";
+      }
+      return value;
+    }
+
+    // Set tax receipt taxes values
+    TaxReceipt.taxes.house.callback = function(selector, values) {
+      var value = houseValue();
+      var quota = value * 0.0022 ;
+      return quota;
+    };
+
+    TaxReceipt.taxes.vehicle.values      = [0, 5.04, 7.57, 12.55, 24.74, 49.51, 99.01, 20.02, 56.30, 120.09, 150.17];
+    TaxReceipt.taxes.vehicleExtra.values = [0, 5.04, 7.57, 12.55, 24.74, 49.51, 99.01, 20.02, 56.30, 120.09, 150.17];
+    TaxReceipt.taxes.vehicle.callback = function(selector, values) {
+      if (+$('#select-vehicle').val() < 1) {
+        $("#select-extra-vehicle").prop('disabled', true);
+        $("#select-extra-vehicle").val(0);
+      } else {
+        $("#select-extra-vehicle").prop('disabled', false);
+      };
+
+      var mainValue = values[+$("#select-vehicle").val()]
+      var extraValue = values[+$("#select-extra-vehicle").val()]
+      return (mainValue + extraValue)
+    };
+    TaxReceipt.taxes.vehicleExtra.callback = function(selector, values) {
+      return 0;
+    };
+
+    // Remove unused taxes
+    delete TaxReceipt.taxes.garbage;
+    delete TaxReceipt.taxes.parking;
+
+    // Add extra tax
+    // We can add new taxed to TaxReceipt.taxes object
+    // defining its selector, values array & callback function
+    /*
+    TaxReceipt.taxes.animal = {
+      selector: 'animal',
+      values:   [0, 100, 200, 300, 400],
+      callback: TaxReceipt.getSelectTaxPaid
+    }
+    */
+
+    // Override redrawGrid method
+    TaxReceipt.redrawGrid = function() {
+      if ( myGrid !== undefined ) {
+        myGrid.destroy();
+      }
+
+      myGrid = createBudgetGrid('#myGrid', gridData, [
+        { data: 'label', title: '{{ _("Política") }}', render: getPolicyLinkFormatter() },
+        {
+          data:   getBreakdownValue,
+          title:  '{{ _("Gasto") }}',
+          render: TaxReceipt.calculatePersonalTax,
+          year:   breakdown.years['{{ latest_budget.name()|safe }}']
+        }
+      ]);
+    };
+
+    // Initialize tax receipt
+    TaxReceipt.setup( breakdown, getBreakdownValue );
+
+    // Currency mask for house input
+    $("#select-house").change(function() {
+      $("#select-house").val(houseValue().replace(/(\d)(?=(?:\d{3})+\b)/g, "$1."));
+    });
+
+    $("#select-house").on("keypress", function(event) {
+      var keycode = event.which;
+      if (keycode == 13)
+        $("#select-house-bonus").trigger("focus");
+    });
+
+  });
+</script>

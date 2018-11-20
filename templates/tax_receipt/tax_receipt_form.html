@@ -1,0 +1,55 @@
+<form class="form-user-incomings" action="#" method="get">
+
+  <h3>{{ _('Impuestos') }}</h3>
+
+  <div class="row">
+    <div class="form-group">
+      <label for="select-house">{{  _('Valor catastral de la vivienda') }}</label>
+      <div class="input-group">
+        <input id="select-house" type="text" class="form-control" placeholder="{{ _('Introduce el valor catastral de la vivienda') }}">
+        <div class="input-group-addon">€</div>
+      </div>
+    </div>
+    <div class="select-info">{{ _('IBI') }}: <span id="select-house-tax"></span></div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label for="select-vehicle">{{ _('Vehículo principal') }}</label>
+      <select id="select-vehicle" class="form-control">
+        <option value="0" type="text" selected="selected">{{ _('Ninguno') }}</option>
+        <option value="1" type="text">{{ _('Ciclomotor') }}</option>
+        <option value="2" type="text">{{ _('Motocicleta muy pequeña (hasta 125 cc)') }}</option>
+        <option value="3" type="text">{{ _('Motocicleta pequeña (125-250 cc)') }}</option>
+        <option value="4" type="text">{{ _('Motocicleta mediana (250-500 cc)') }}</option>
+        <option value="5" type="text">{{ _('Motocicleta grande (500-1000 cc)') }}</option>
+        <option value="6" type="text">{{ _('Motocicleta muy grande (más de 1000 cc)') }}</option>
+        <option value="7" type="text">{{ _('Turismo muy pequeño (hasta 8 c. fiscales)') }}</option>
+        <option value="8" type="text">{{ _('Turismo pequeño (8-12 c. fiscales)') }}</option>
+        <option value="9" type="text">{{ _('Turismo mediano (12-16 c. fiscales)') }}</option>
+        <option value="10" type="text">{{ _('Turismo grande (más de 16 c. fiscales)') }}</option>
+      </select>
+    </div>
+    <div class="select-info">{{ _('IVTM') }}: <span id="select-vehicle-tax"></span></div>
+
+    <div class="form-group" style="clear: both">
+      <label for="select-extra-vehicle">{{ _('Vehículo adicional') }}</label>
+      <select id="select-extra-vehicle" class="form-control">
+        <option value="0" type="text" selected="selected">{{ _('Ninguno') }}</option>
+        <option value="1" type="text">{{ _('Ciclomotor') }}</option>
+        <option value="2" type="text">{{ _('Motocicleta muy pequeña (hasta 125 cc)') }}</option>
+        <option value="3" type="text">{{ _('Motocicleta pequeña (125-250 cc)') }}</option>
+        <option value="4" type="text">{{ _('Motocicleta mediana (250-500 cc)') }}</option>
+        <option value="5" type="text">{{ _('Motocicleta grande (500-1000 cc)') }}</option>
+        <option value="6" type="text">{{ _('Motocicleta muy grande (más de 1000 cc)') }}</option>
+        <option value="7" type="text">{{ _('Turismo muy pequeño (hasta 8 c. fiscales)') }}</option>
+        <option value="8" type="text">{{ _('Turismo pequeño (8-12 c. fiscales)') }}</option>
+        <option value="9" type="text">{{ _('Turismo mediano (12-16 c. fiscales)') }}</option>
+        <option value="10" type="text">{{ _('Turismo grande (más de 16 c. fiscales)') }}</option>
+      </select>
+    </div>
+  </div>
+
+</form>
+
+<p id="tax-amount">{{ _('Contribuyes con un total de <strong id="tax-amount-paid"></strong> a los presupuestos del Gobierno de Aragón')|safe }}.</p>

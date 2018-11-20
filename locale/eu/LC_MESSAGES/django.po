@@ -54,7 +54,8 @@ msgstr "Erakusten diren diru-sarrerak eta gastuak Eguesibarko Udalari dagozkiona
 
 #: templates/tax_receipt/tax_receipt_form.html:75
 msgid "Contribuyes con un total de <strong id=\"tax-amount-paid\"></strong> a los presupuestos del Gobierno de Aragón"
-msgstr "Guztira, <strong id=\"tax-amount-paid\"></strong>(e)ko ekarpena egiten diezu Eguesibarko Udala aurrekontuei."
+msgstr "Gutxi gorabehera, <strong id=\"tax-amount-paid\"></strong>ko ekarpena egiten diezu Eguesibarko Udala aurrekontuei"
+
 
 #: templates/welcome/index.html:12
 msgid "¿Cómo y en qué gasta el Gobierno de Aragón?"
@@ -85,32 +86,38 @@ msgstr "Balio katastrala sartzen du etxebizitzatik"
 msgid "IVTM"
 msgstr "TMIZ"
 
-msgid "Ciclomotores"
-msgstr "Ziklomotorrak"
+msgid "Vehículo principal"
+msgstr "Ibilgailu nagusia"
 
-msgid "Motocicletas hasta 125 cc"
-msgstr "125 cc-tik beherako motorrak"
+msgid "Vehículo adicional"
+msgstr "Ibilgailu gehigarria"
 
-msgid "Motocicletas entre 125 cc y 250 cc"
-msgstr "125 eta 250 cc bitarteko motorrak"
+msgid "Ciclomotor"
+msgstr "Ziklomotor"
 
-msgid "Motocicletas entre 250 cc y 500 cc"
-msgstr "250 eta 500 cc bitarteko motorrak"
+msgid "Motocicleta muy pequeña (hasta 125 cc)"
+msgstr "Motor oso txikia (125 cc-tik beherako)"
 
-msgid "Motocicletas entre 500 cc y 1000 cc"
-msgstr "500 eta 1.000 cc bitarteko motorrak"
+msgid "Motocicleta pequeña (125-250 cc)"
+msgstr "Motor txikia (125-250 cc)"
 
-msgid "Motocicletas de más de 1000 cc"
-msgstr "1.000 cc-tik goragoko motorrak"
+msgid "Motocicleta mediana (250-500 cc)"
+msgstr "Motor ertaina (250-500 cc)"
 
-msgid "Turismo de menos de 8 caballos fiscales"
-msgstr "8 zerga-zaldi baino gutxiago dutenak turismoa"
+msgid "Motocicleta grande (500-1000 cc)"
+msgstr "Motor handia (500-1.000 cc)"
 
-msgid "Turismo de 8 hasta 12 caballos fiscales"
-msgstr "8 eta 12 zerga-zaldi bitartekoak turismoa"
+msgid "Motocicleta muy grande (más de 1000 cc)"
+msgstr "Motor oso handia (1.000 cc-tik gorako)"
 
-msgid "Turismo de 12 hasta 16 caballos fiscales"
-msgstr "12 eta 16 zerga-zaldi bitartekoak turismoa"
+msgid "Turismo muy pequeño (hasta 8 c. fiscales)"
+msgstr "Auto oso txikia (8 zerga-zalditik beherako)"
 
-msgid "Turismo de 16 caballos fiscales en adelante"
-msgstr "16 zerga-zalditik gorakoak turismoa"
+msgid "Turismo pequeño (8-12 c. fiscales)"
+msgstr "Auto txikia (8-12 zerga-zaldi)"
+
+msgid "Turismo mediano (12-16 c. fiscales)"
+msgstr "Auto ertaina (12-16 zerga-zaldi)"
+
+msgid "Turismo grande (más de 16 c. fiscales)"
+msgstr "Auto handia (16 zerga-zalditik gorako)"
