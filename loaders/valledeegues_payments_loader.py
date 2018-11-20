@@ -32,7 +32,8 @@ class ValledeeguesPaymentsLoader(PaymentsLoader):
         policy = None
 
         # We got an iso date or nothing
-        date = line[mapper.date] if mapper.date else None
+        date = line[mapper.date].strip()
+        date = date if date else None
 
         # Payee data
         payee = line[mapper.payee].strip()
@@ -46,6 +47,7 @@ class ValledeeguesPaymentsLoader(PaymentsLoader):
         payee = re.sub(r' SL$', ' S.L.', payee)
         payee = re.sub(r' S\.I$', ' S.I.', payee)
         payee = re.sub(r' SLL$', ' S.L.L.', payee)
+        payee = re.sub(r' SLL-', ' S.L.L.-', payee)
         payee = re.sub(r' SLU$', ' S.L.U.', payee)
         payee = re.sub(r' S\.L\.U$', ' S.L.U.', payee)
         payee = re.sub(r' S\.L\.U[^\.]', ' S.L.U.', payee)
@@ -56,17 +58,40 @@ class ValledeeguesPaymentsLoader(PaymentsLoader):
         payee = re.sub(r' SAU$', ' S.A.U.', payee)
         payee = re.sub(r' SRL$', ' S.R.L.', payee)
         payee = re.sub(r' AG$', ' A.G.', payee)
+        payee = re.sub(r' UTE', ' U.T.E.', payee)
+        payee = re.sub(r'UTE ', 'U.T.E. ', payee)
+        payee = re.sub(r' PLC$', ' P.L.C.', payee)
 
         # normalize typos
         payee = re.sub('IRAOLA ARTETA', 'IRAOLA-ARTETA', payee)
-        payee = re.sub('MEDIA MARKT CORDOVILLA', 'MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COPUTER S.A.', payee)
-        payee = re.sub('MEDIA MARKT CORDOVILLA PAMPLONA VIDEO', 'MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COPUTER S.A.D', payee)
-        payee = re.sub('MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COPUTER S.A.', 'MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COMPUTER S.A.', payee)
+        payee = re.sub(r'^IRAOLA$', 'IRAOLA-ARTETA S.L.', payee)
+        payee = re.sub(r'^MEDIA MARKT CORDOVILLA$', 'MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COPUTER S.A.', payee)
+        payee = re.sub(r'^MEDIA MARKT CORDOVILLA PAMPLONA VIDEO$', 'MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COPUTER S.A.', payee)
+        payee = re.sub(r'^MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COPUTER S\.A\.$', 'MEDIA MARKT CORDOVILLA-PAMPLONA VIDEO-TV HIFI-COMPUTER S.A.', payee)
         payee = re.sub('SEGURIDAD SISTEMAS NAVARRA S.A.', 'SEGURIDAD SISTEMAS NAVARRA S.L.', payee)
         payee = re.sub('UNIVERSIDAD SOCIEDAD', 'UNIVERSIDAD-SOCIEDAD', payee)
         payee = re.sub('FORESNA ZURGAIA', 'FORESNA-ZURGAIA', payee)
         payee = re.sub('LABORAL RUIZ PIQUER', 'LABORAL RUIZ-PIQUER', payee)
         payee = re.sub(r'ASESORIA LABORAL RUIZ$', 'ASESORIA LABORAL RUIZ-PIQUER S.L.', payee)
+        payee = re.sub(r'S\.L\.\(SERNAMAN\)', 'S.L. (SERNAMAN)', payee)
+        payee = re.sub(r'^MUY ILUSTRE COLEGIO DE ABOGADOS DE PAMPL$', 'MUY ILUSTRE COLEGIO DE ABOGADOS DE PAMPLONA', payee)
+        payee = re.sub(r'^COMUNIDAD FORAL DE NAVARRA \(CULTURA TURISMO RELACIONES INSTITUCIONALES$', 'COMUNIDAD FORAL DE NAVARRA (CULTURA, TURISMO, RELACIONES INSTITUCIONALES)', payee)
+        payee = re.sub(r'\(ZAKARLOA S\.L\.', '(ZAKARLOA S.L.)', payee)
+        payee = re.sub(r'SL \(PREFABRICADOS\)', 'S.L. (PREFABRICADOS)', payee)
+        payee = re.sub(r'^AROZ$', 'AROZ-BERRI S.A.', payee)
+        payee = re.sub(r'^AUTO$', 'AUTO-RECAMBIOS ATLANTIC S.L.', payee)
+        payee = re.sub(r'^BAG$', 'BAG-DISTRIBUCIONES PUBLICITARIAS S.L.', payee)
+        payee = re.sub('BAG- DISTRIBUCIONES', 'BAG-DISTRIBUCIONES', payee)
+        payee = re.sub(r'^EDUCACONTINUUM S\.L\.L\.$', 'EDUCACONTINUUM S.L.L.-AGINTZARI S.COOP DE INICIATIVA SOCIAL U.T.E.', payee)
+        payee = re.sub(r'^ENTIDAD CONSERVACION P\. IND\. EG.ES SEC$', u'ENTIDAD CONSERVACION P. IND. EGÜES SEC-A', payee)
+        payee = re.sub(r'S\.A\.DE', 'S.A. DE', payee)
+        payee = re.sub(r'^IPAR$', 'IPAR-ETXE S.I.', payee)
+        payee = re.sub(r'^MURGIBE$', 'MURGIBE S.L.', payee)
+        payee = re.sub('RADIOPOPULAR', 'RADIO POPULAR', payee)
+        payee = re.sub(r'^RADIO POPULAR S\.A\.$', 'RADIO POPULAR S.A. - COPE', payee)
+        payee = re.sub(r'^ROTULOS LAVIN\.$', 'ROTULOS LAVIN', payee)
+        payee = re.sub(r'^SOCIEDAD ESTATAL DE CORREOS Y TELEGRAFOS S\.A\.$', 'CORREOS Y TELEGRAFOS', payee)
+        payee = re.sub(r'^VIVEROS VALDORBA ECHAPARE GONZALEZ CESAR Y LEZAUN INDURAIN MARIA PILAR$', 'VIVEROS VALDORBA', payee)
 
         # We don't get any anonymized entries
         anonymized = False
