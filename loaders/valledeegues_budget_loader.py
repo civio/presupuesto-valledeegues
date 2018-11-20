@@ -3,12 +3,16 @@ from budget_app.loaders import SimpleBudgetLoader
 
 expenses_mapping = {
     'default': {'fc_code': 2, 'full_ec_code': 3, 'description': 4, 'forecast_amount': 7, 'actual_amount': 11},
-    '2018': {'fc_code': 2, 'full_ec_code': 3, 'description': 4, 'forecast_amount': 13, 'actual_amount': None    },
 }
 
 income_mapping = {
     'default': {'full_ec_code': 1, 'description': 2, 'forecast_amount': 8, 'actual_amount': 10},
-    '2018': {'full_ec_code': 2, 'description': 3, 'forecast_amount': 13, 'actual_amount': None},
+}
+
+programme_mapping = {
+    '2399': '2390',
+    '2419': '2410',
+    '3232': '3230',
 }
 
 
@@ -33,11 +37,6 @@ class BudgetCsvMapper:
 
 
 class ValledeeguesBudgetLoader(SimpleBudgetLoader):
-
-    # An artifact of the in2csv conversion of the original XLS files is a trailing '.0', which we remove here
-    def clean(self, s):
-        return s.split('.')[0]
-
     # Make year data available in the class and call super
     def load(self, entity, year, path, status):
         self.year = year
@@ -71,7 +70,6 @@ class ValledeeguesBudgetLoader(SimpleBudgetLoader):
 
         # Description
         description = line[mapper.description].strip()
-        description = self._spanish_titlecase(description)
 
         # Parse amount
         amount = line[mapper.actual_amount if is_actual else mapper.forecast_amount]
@@ -82,6 +80,10 @@ class ValledeeguesBudgetLoader(SimpleBudgetLoader):
             # We got 5-digit functional codes as input, but we only need the first four
             fc_code = line[mapper.fc_code].strip()
             fc_code = fc_code[:4]
+
+            # We only have the mandatory functional classification, so we map not listed
+            # programmes to its programme group
+            fc_code = programme_mapping.get(fc_code, fc_code)
 
         # Income
         else:
