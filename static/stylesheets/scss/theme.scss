@@ -1,1 +1,51 @@
 @import "theme-variables";
+
+.budget-intro .budget-step h3 span,
+.home-content .options .option>div .icon{
+  color: $brand-terciary;
+}
+
+.panel-downloads{
+  background: $brand-terciary;
+
+  a {
+    color: $brand-primary;
+
+    &:hover{
+      color: darken($brand-primary, 10%);
+    }
+  }
+}
+
+.social-sharing-toolbox li a{
+  background-color: $brand-primary;
+}
+
+#payments-search .data-controllers .slider.slider-horizontal {
+  .slider-track,
+  .slider-tick{
+    background: white;
+  }
+}
+#payments-search .data-controllers .slider.slider-horizontal .slider-tick.in-selection{
+  background: $brand-primary;
+}
+
+.tax-receipt-content .form-user-incomings h3{
+  color: $brand-primary;
+}
+
+
+.form-search-glossary .btn-primary{
+  background: $brand-primary;
+  border-color: $brand-primary;
+}
+
+.form-search-glossary .form-control{
+  border-color: $brand-primary;
+}
+
+.glossary-terms h3:before, 
+.glossary-terms h4:before{
+  color: $brand-primary;
+}
