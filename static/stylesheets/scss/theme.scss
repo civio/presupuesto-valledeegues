@@ -1,24 +1,22 @@
 @import "theme-variables";
 
-.budget-intro .budget-step h3 span,
-.home-content .options .option>div .icon{
-  color: $brand-terciary;
+.navbar-brand a{
+  color: darken($brand-secondary, 8%);
 }
 
-.panel-downloads{
+.form-search .form-inline .btn-primary,
+.home-content .options .btn-primary{
   background: $brand-terciary;
-
-  a {
-    color: $brand-primary;
-
-    &:hover{
-      color: darken($brand-primary, 10%);
-    }
-  }
+  border-color: $brand-terciary;
 }
 
-.social-sharing-toolbox li a{
-  background-color: $brand-primary;
+.form-search .form-inline .btn-primary{
+  background: $brand-secondary;
+  border-color: $brand-secondary;
+}
+
+.budget-intro .budget-step h3 span{
+  color: $brand-terciary;
 }
 
 #payments-search .data-controllers .slider.slider-horizontal {
@@ -27,22 +25,28 @@
     background: white;
   }
 }
+
 #payments-search .data-controllers .slider.slider-horizontal .slider-tick.in-selection{
-  background: $brand-primary;
+  background: $brand-secondary;
+}
+
+#payments-search .btn-primary{
+  background: $brand-secondary;
+  border-color: $brand-secondary;
+}
+#payments-search #btn-reset-form{
+  background: lighten($brand-primary, 10%);
+  border-color: lighten($brand-primary, 10%);
+}
+
+#query-panel .panel,
+.tax-receipt-content #tax-amount{
+  background: lighten($brand-primary, 10%);
+  border: none;
 }
 
 .tax-receipt-content .form-user-incomings h3{
   color: $brand-primary;
-}
-
-
-.form-search-glossary .btn-primary{
-  background: $brand-primary;
-  border-color: $brand-primary;
-}
-
-.form-search-glossary .form-control{
-  border-color: $brand-primary;
 }
 
 .glossary-terms h3:before, 
