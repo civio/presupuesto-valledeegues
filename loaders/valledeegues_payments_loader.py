@@ -1,10 +1,12 @@
 # -*- coding: UTF-8 -*-
 from budget_app.loaders import PaymentsLoader
+from budget_app.models import Budget
+
 import re
 
 
 payments_mapping = {
-    'default': {'fc_code': None, 'date': 1, 'payee': 3, 'description': 6, 'amount': 4},
+    'default': {'fc_code': 1, 'date': 3, 'payee': 4, 'description': 7, 'amount': 8},
 }
 
 
@@ -28,15 +30,22 @@ class ValledeeguesPaymentsLoader(PaymentsLoader):
         # Mapper
         mapper = PaymentsCsvMapper(budget.year)
 
-        # We don't get functional codes
-        policy = None
+        # We got the functional code
+        fc_code = line[mapper.fc_code]
+
+        # first two digits of the functional code make the policy id
+        policy_id = fc_code[:2]
+
+        # but what we want as area is the policy description
+        policy = Budget.objects.get_all_descriptions(budget.entity)['functional'][policy_id]
 
         # We got an iso date or nothing
         date = line[mapper.date].strip()
         date = date if date else None
 
-        # Payee data
-        payee = line[mapper.payee].strip()
+        # We got three consecutive fields with payee data
+        payee_data = line[mapper.payee:mapper.payee+3]
+        payee = ' '.join([p.strip() for p in payee_data]).strip()
 
         # remove commas
         payee = payee.replace(', ', ' ').replace(',', ' ')
@@ -92,6 +101,8 @@ class ValledeeguesPaymentsLoader(PaymentsLoader):
         payee = re.sub(r'^ROTULOS LAVIN\.$', 'ROTULOS LAVIN', payee)
         payee = re.sub(r'^SOCIEDAD ESTATAL DE CORREOS Y TELEGRAFOS S\.A\.$', 'CORREOS Y TELEGRAFOS', payee)
         payee = re.sub(r'^VIVEROS VALDORBA ECHAPARE GONZALEZ CESAR Y LEZAUN INDURAIN MARIA PILAR$', 'VIVEROS VALDORBA', payee)
+        payee = re.sub(r'^ALBERO MAULEON ALFONSO Y IBAÑEZ MARIA ARANZAZU$', 'ALBERO MAULEON ALFONSO E IBAÑEZ CELAYETA MARIA ARANZAZU', payee)
+        payee = re.sub('M&INGENEIERIA', 'M&M INGENIERIA', payee)
 
         # We don't get any anonymized entries
         anonymized = False
